@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type { RecordDraft, Transaction } from "@/types";
 import { deriveTotals } from "@/lib/calculations";
-import { todayISO } from "@/lib/format";
+import { nowISO } from "@/lib/format";
 import { uid } from "@/lib/id";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Textarea } from "@/components/ui/Field";
@@ -25,7 +25,7 @@ export function RecordForm({
 }) {
   const [title, setTitle] = useState(initial?.title ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
-  const [date, setDate] = useState(initial?.date ?? todayISO());
+  const date = initial?.date ?? nowISO();
   const [income, setIncome] = useState<Transaction[]>(
     initial?.income?.length ? initial.income : [emptyRow()],
   );
@@ -63,16 +63,6 @@ export function RecordForm({
               Give this record a title.
             </p>
           )}
-        </Field>
-
-        <Field label="Date" htmlFor="date" className="min-w-0">
-          <Input
-            id="date"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="min-w-0"
-          />
         </Field>
 
         <Field

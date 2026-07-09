@@ -1,56 +1,58 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useRecordStore } from '@/store/useRecordStore'
-import { toast } from '@/hooks/useToast'
-import type { ProfitRecord, Transaction } from '@/types'
-import { formatDate } from '@/lib/format'
-import { PageHeader } from '@/components/layout/PageHeader'
-import { Button } from '@/components/ui/Button'
-import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
-import { EmptyState } from '@/components/ui/EmptyState'
-import { IconButton } from '@/components/ui/IconButton'
-import { Money } from '@/components/ui/Money'
-import { CopyIcon, EditIcon, TrashIcon } from '@/components/ui/icons'
-import { cn } from '@/lib/cn'
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecordStore } from "@/store/useRecordStore";
+import { toast } from "@/hooks/useToast";
+import type { ProfitRecord, Transaction } from "@/types";
+import { formatDate } from "@/lib/format";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { Button } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { IconButton } from "@/components/ui/IconButton";
+import { Money } from "@/components/ui/Money";
+import { CopyIcon, EditIcon, TrashIcon } from "@/components/ui/icons";
+import { cn } from "@/lib/cn";
 
 export function RecordDetailsPage() {
-  const navigate = useNavigate()
-  const { id } = useParams()
-  const record = useRecordStore((s) => (id ? s.getRecord(id) : undefined))
-  const deleteRecord = useRecordStore((s) => s.deleteRecord)
-  const duplicateRecord = useRecordStore((s) => s.duplicateRecord)
-  const [confirming, setConfirming] = useState(false)
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const record = useRecordStore((s) => (id ? s.getRecord(id) : undefined));
+  const deleteRecord = useRecordStore((s) => s.deleteRecord);
+  const duplicateRecord = useRecordStore((s) => s.duplicateRecord);
+  const [confirming, setConfirming] = useState(false);
 
   if (!record) {
     return (
       <div>
-        <PageHeader title="Record" onBack={() => navigate('/')} />
+        <PageHeader title="Record" onBack={() => navigate("/")} />
         <EmptyState
           title="Record not found"
           description="This record may have been deleted."
-          action={<Button onClick={() => navigate('/')}>Back to records</Button>}
+          action={
+            <Button onClick={() => navigate("/")}>Back to records</Button>
+          }
         />
       </div>
-    )
+    );
   }
 
   const handleDuplicate = () => {
-    const copy = duplicateRecord(record.id)
-    toast.success('Record duplicated')
-    if (copy) navigate(`/record/${copy.id}`)
-  }
+    const copy = duplicateRecord(record.id);
+    toast.success("Record duplicated");
+    if (copy) navigate(`/record/${copy.id}`);
+  };
 
   const handleDelete = () => {
-    deleteRecord(record.id)
-    toast.success('Record deleted')
-    navigate('/')
-  }
+    deleteRecord(record.id);
+    toast.success("Record deleted");
+    navigate("/");
+  };
 
   return (
     <div>
       <PageHeader
         title={record.title}
-        onBack={() => navigate('/')}
+        onBack={() => navigate("/")}
         actions={
           <>
             <IconButton
@@ -133,7 +135,7 @@ export function RecordDetailsPage() {
         onCancel={() => setConfirming(false)}
       />
     </div>
-  )
+  );
 }
 
 function ProfitBanner({ record }: { record: ProfitRecord }) {
@@ -150,14 +152,14 @@ function ProfitBanner({ record }: { record: ProfitRecord }) {
       />
       <div className="mt-4 flex gap-6 text-sm">
         <span className="text-slate-300">
-          Income{' '}
+          Income{" "}
           <Money
             amount={record.totalIncome}
             className="font-semibold text-income-dark"
           />
         </span>
         <span className="text-slate-300">
-          Expenses{' '}
+          Expenses{" "}
           <Money
             amount={record.totalExpenses}
             className="font-semibold text-expense-dark"
@@ -165,7 +167,7 @@ function ProfitBanner({ record }: { record: ProfitRecord }) {
         </span>
       </div>
     </div>
-  )
+  );
 }
 
 function Ledger({
@@ -175,19 +177,19 @@ function Ledger({
   total,
   totalLabel,
 }: {
-  title: string
-  tone: 'income' | 'expense'
-  items: Transaction[]
-  total: number
-  totalLabel: string
+  title: string;
+  tone: "income" | "expense";
+  items: Transaction[];
+  total: number;
+  totalLabel: string;
 }) {
   return (
     <section className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900">
       <div className="flex items-center gap-2 border-b border-slate-100 px-4 py-3 dark:border-slate-800">
         <span
           className={cn(
-            'h-2.5 w-2.5 rounded-full',
-            tone === 'income' ? 'bg-income' : 'bg-expense',
+            "h-2.5 w-2.5 rounded-full",
+            tone === "income" ? "bg-income" : "bg-expense",
           )}
         />
         <h2 className="font-display text-sm font-semibold">{title}</h2>
@@ -222,5 +224,5 @@ function Ledger({
         <Money amount={total} tone={tone} className="text-sm font-semibold" />
       </div>
     </section>
-  )
+  );
 }

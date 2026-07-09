@@ -8,7 +8,7 @@ export type ProfitRecord = {
   id: string
   title: string
   description?: string
-  date: string // ISO date string (YYYY-MM-DD)
+  date: string // ISO date/time string (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss)
 
   income: Transaction[]
   expenses: Transaction[]

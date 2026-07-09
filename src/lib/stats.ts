@@ -38,8 +38,9 @@ export function filterRecords(
 ): ProfitRecord[] {
   const q = query.trim().toLowerCase()
   return records.filter((record) => {
-    if (range?.from && record.date < range.from) return false
-    if (range?.to && record.date > range.to) return false
+    const recordDate = record.date.slice(0, 10)
+    if (range?.from && recordDate < range.from) return false
+    if (range?.to && recordDate > range.to) return false
     if (!q) return true
     const haystack = [
       record.title,

@@ -33,13 +33,19 @@ export function formatSignedCurrency(amount: number, currency = 'PHP'): string {
 }
 
 export function formatDate(iso: string): string {
-  const date = new Date(iso.length <= 10 ? `${iso}T00:00:00` : iso)
+  const hasTime = iso.length > 10
+  const date = new Date(hasTime ? iso : `${iso}T00:00:00`)
   if (Number.isNaN(date.getTime())) return iso
-  return date.toLocaleDateString(undefined, {
+  const formatted = date.toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   })
+  if (!hasTime) return formatted
+  return `${formatted} · ${date.toLocaleTimeString(undefined, {
+    hour: 'numeric',
+    minute: '2-digit',
+  })}`
 }
 
 export function formatShortDate(iso: string): string {
@@ -57,4 +63,11 @@ export function todayISO(): string {
   const now = new Date()
   const offset = now.getTimezoneOffset() * 60000
   return new Date(now.getTime() - offset).toISOString().slice(0, 10)
+}
+
+/** Current date and time as YYYY-MM-DDTHH:mm:ss in the local timezone. */
+export function nowISO(): string {
+  const now = new Date()
+  const offset = now.getTimezoneOffset() * 60000
+  return new Date(now.getTime() - offset).toISOString().slice(0, 19)
 }

@@ -57,7 +57,7 @@ export function Dashboard() {
             Income, expenses, and profit at a glance.
           </p>
         </div>
-        <Button onClick={() => navigate("/new")} className="shrink-0" size="md">
+        <Button onClick={() => navigate("/new")} className="shrink-0" size="sm">
           <PlusIcon />
           New
         </Button>
