@@ -1,22 +1,22 @@
-import type { ReactNode } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { IconButton } from '@/components/ui/IconButton'
-import { ChevronLeftIcon } from '@/components/ui/icons'
+import type { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import { IconButton } from "@/components/ui/IconButton";
+import { ChevronLeftIcon } from "@/components/ui/icons";
 
 export function PageHeader({
   title,
   actions,
   onBack,
 }: {
-  title: string
-  actions?: ReactNode
-  onBack?: () => void
+  title: string;
+  actions?: ReactNode;
+  onBack?: () => void;
 }) {
-  const navigate = useNavigate()
-  const back = onBack ?? (() => navigate(-1))
+  const navigate = useNavigate();
+  const back = onBack ?? (() => navigate(-1));
 
   return (
-    <div className="mb-5 flex items-center gap-2">
+    <div className="mb-5 flex items-center gap-3">
       <IconButton
         label="Go back"
         onClick={back}
@@ -29,5 +29,5 @@ export function PageHeader({
       </h1>
       {actions && <div className="flex items-center gap-1">{actions}</div>}
     </div>
-  )
+  );
 }
